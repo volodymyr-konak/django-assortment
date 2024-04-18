@@ -21,13 +21,13 @@ class CategoryListView(ListView):
     model = models.Category
 
     def get_queryset(self):
-        forms.CategorySearchForm(self.request.GET).is_valid()
-
         f = forms.CategorySearchForm(self.request.GET)
         f.is_valid()
         not_empty_params_dict = dict(filter(lambda kv: kv[1] != '', f.cleaned_data.items()))
 
-        return self.model.objects.filter(**not_empty_params_dict)
+        return self.model.objects.filter(
+            **not_empty_params_dict
+        )
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -39,16 +39,25 @@ class AttributeListView(ListView):
     model = models.Attribute
 
     def get_queryset(self):
-        print(self.kwargs)
+        f = forms.AttributeSearchForm(self.request.GET)
+        f.is_valid()
+        not_empty_params_dict = dict(filter(lambda kv: kv[1] != '', f.cleaned_data.items()))
+
         is_required = None
         if self.kwargs.get("required") == "required":
             is_required = True
-        if self.kwargs.get("required") == "required":
-            is_required = False
-        if is_required is None:
-            return self.model.objects.filter(category__pk=self.kwargs["categoryId"])
         else:
-            return self.model.objects.filter(category__pk=self.kwargs["categoryId"], required=is_required)
+            is_required = False
+        return self.model.objects.filter(
+            category__pk=self.kwargs["categoryId"],
+            required=is_required,
+            **not_empty_params_dict,
+        )
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = forms.AttributeSearchForm(self.request.GET)
+        return context
 
 
 class AttributeValueListView(ListView):
@@ -57,7 +66,6 @@ class AttributeValueListView(ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             attribute__pk=self.kwargs["attributeId"],
-            # category__pk=self.kwargs["categoryId"]
         )
 
 

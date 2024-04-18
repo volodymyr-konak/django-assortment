@@ -64,3 +64,21 @@ class CategorySearchForm(ModelForm):
             # 'catLastModified': TextInput(attrs={'readonly': 'readonly'}),
         }
 
+
+class AttributeSearchForm(ModelForm):
+    class Meta:
+        model = Attribute
+        exclude = ["id", "category"]
+        widgets = {
+            # 'catIsActive': CheckboxInput(attrs={'checked': True}),
+
+            # 'categoryId': TextInput(attrs={'readonly': 'readonly'}),
+            # 'categoryName': TextInput(attrs={'readonly': 'readonly'}),
+            # 'orgId': TextInput(attrs={'readonly': 'readonly'}),
+            # 'orgName': TextInput(attrs={'readonly': 'readonly'}),
+            # 'catLastModified': TextInput(attrs={'readonly': 'readonly'}),
+        }
+
+
+
+
