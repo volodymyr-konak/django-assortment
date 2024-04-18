@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 import uuid
 
+from marketplace.utils import execute_query
+
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -60,3 +62,47 @@ class AttributeValue(models.Model):
     valIsActive = models.BooleanField(default=True, blank=True)
     valNote = models.CharField(max_length=200, blank=True)
 
+
+def query_db(search_values: dict, columns_to_select: list):
+    print("search clauses")
+    print(search_values)
+    print("active_columns")
+    print(columns_to_select)
+    search_clauses = {'categoryId': 'Printer Paper', 'catAddedToAssortment': False, 'catIsActive': True}
+    search_clauses = {'valueName': '100% Recycled Paper'}
+    active_columns = ['categoryId', 'valueName']
+    active_columns = ['valueId', 'valueName', 'attribute__attributeName']
+
+    columns = ", ".join(columns_to_select)
+    if not columns:
+        columns = "*"
+
+    def to_sql(value):
+        if isinstance(value, bool):
+            return f"{int(value)}"
+        if isinstance(value, str):
+            return f"'{value}'"
+        return value
+
+    where_clauses = " AND ".join([
+        f"{key} = {to_sql(val)}"
+        for key, val in search_values.items()
+        if val != ''
+    ])
+    if where_clauses:
+        where_clauses = f" WHERE {where_clauses}"
+    print("where_clauses")
+    print(where_clauses)
+
+    query = f"""
+    SELECT {columns} 
+    FROM marketplace_category as category
+     JOIN marketplace_attribute as attribute 
+     ON attribute.category_id = category.id 
+     JOIN marketplace_attributevalue as attribute_value 
+     ON attribute.id = attribute_value.attribute_id 
+    {where_clauses}
+    """
+    print(query)
+    result = execute_query(query)
+    return result

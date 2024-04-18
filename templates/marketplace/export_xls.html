@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export XLS</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+<!--    <form name="filter_values">-->
+
+        {{ category_form }}
+        {{ attribute_form }}
+        {{ attribute_values_form }}
+<!--    </form>-->
+<!--    <form name="columns_config">-->
+        <h2>Columns Config</h2>
+
+    {{ columns_config_form.management_form }}
+    {% for form in columns_config_form %}{{ form.as_div }}{% endfor %}
+<!--        {% for field, label in  columns_config_form.category_fields.items %}-->
+<!--    <label>-->
+<!--        {{label }}-->
+
+<!--    <input type="checkbox"-->
+<!--                    name="{{field }}">-->
+<!--    </label>-->
+
+<!--        {% endfor %}-->
+    <input type="submit" value="EXPORT XLS">
+<!--    </form>-->
+</form>
+</body>
+</html>

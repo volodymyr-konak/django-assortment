@@ -1,4 +1,11 @@
-from django.forms import ModelForm, forms, fields, TextInput, CheckboxInput
+from django.forms import (
+    ModelForm,
+    forms,
+    fields,
+    TextInput,
+    BaseFormSet,
+    formset_factory,
+)
 from marketplace.models import (
     Category,
     Attribute,
@@ -55,13 +62,6 @@ class CategorySearchForm(ModelForm):
         model = Category
         exclude = ["id"]
         widgets = {
-            # 'catIsActive': CheckboxInput(attrs={'checked': True}),
-
-            # 'categoryId': TextInput(attrs={'readonly': 'readonly'}),
-            # 'categoryName': TextInput(attrs={'readonly': 'readonly'}),
-            # 'orgId': TextInput(attrs={'readonly': 'readonly'}),
-            # 'orgName': TextInput(attrs={'readonly': 'readonly'}),
-            # 'catLastModified': TextInput(attrs={'readonly': 'readonly'}),
         }
 
 
@@ -70,15 +70,66 @@ class AttributeSearchForm(ModelForm):
         model = Attribute
         exclude = ["id", "category"]
         widgets = {
-            # 'catIsActive': CheckboxInput(attrs={'checked': True}),
-
-            # 'categoryId': TextInput(attrs={'readonly': 'readonly'}),
-            # 'categoryName': TextInput(attrs={'readonly': 'readonly'}),
-            # 'orgId': TextInput(attrs={'readonly': 'readonly'}),
-            # 'orgName': TextInput(attrs={'readonly': 'readonly'}),
-            # 'catLastModified': TextInput(attrs={'readonly': 'readonly'}),
         }
 
 
+class AttributeValueSearchForm(ModelForm):
+    class Meta:
+        model = AttributeValue
+        exclude = ["id", "attribute"]
+        widgets = {
+        }
 
 
+class XlsColumnsForm(BaseFormSet):
+    ...
+
+    def add_fields(self, form, index):
+        super().add_fields(form, index)
+        bool_field = lambda: fields.BooleanField(label=field.label, required=False)
+        for field_name, field in CategoryForm().fields.items():
+            form.fields[f"category.{field_name}"] = bool_field()
+        for field_name, field in AttributeForm().fields.items():
+            form.fields[f"attribute.{field_name}"] = bool_field()
+        for field_name, field in AttributeValueForm().fields.items():
+            form.fields[f"attribute_value.{field_name}"] = bool_field()
+
+
+XlsColumnsFormSet = formset_factory(forms.Form, formset=XlsColumnsForm)
+
+     # super(XlsColumnsForm, self).__init__(*args, attrs=zip(field_names, field_names), **kwargs)
+    # categoryId = fields.BooleanField(initial=True, required=False)
+    # categoryName = fields.BooleanField(initial=True, required=False)
+    # orgId = fields.BooleanField(initial=True, required=False)
+    # orgName = fields.BooleanField(initial=True, required=False)
+    # assortCategoryName = fields.BooleanField(initial=True, required=False)
+    # assortCategoryRSXKey = fields.BooleanField(initial=True, required=False)
+    # catConversionPlace = fields.BooleanField(initial=True, required=False)
+    # catAddedToAssortment = fields.BooleanField(initial=True, required=False)
+    # catIsActive = fields.BooleanField(initial=True, required=False)
+    # catLastModified = fields.BooleanField(initial=True, required=False)
+    # catNote = fields.BooleanField(initial=True, required=False)
+    #
+    # attributeName = fields.BooleanField(initial=True, required=False)
+    # attributeId = fields.BooleanField(initial=True, required=False)
+    # attributeDescription = fields.BooleanField(initial=True, required=False)
+    # assortAttributeName = fields.BooleanField(initial=True, required=False)
+    # assortAttributeRSXKey = fields.BooleanField(initial=True, required=False)
+    # attrConversionPlace = fields.BooleanField(initial=True, required=False)
+    # dataType = fields.BooleanField(initial=True, required=False)
+    # minLength = fields.BooleanField(initial=True, required=False)
+    # maxLength = fields.BooleanField(initial=True, required=False)
+    # attrAddedToAssortment = fields.BooleanField(initial=True, required=False)
+    # attrIsActive = fields.BooleanField(initial=True, required=False)
+    # attrLastModified = fields.BooleanField(initial=True, required=False)
+    # attrNote = fields.BooleanField(initial=True, required=False)
+    #
+    # valueName = fields.BooleanField(initial=True, required=False)
+    # valueId = fields.BooleanField(initial=True, required=False)
+    # assortValueName = fields.BooleanField(initial=True, required=False)
+    # assortValueRSXKey = fields.BooleanField(initial=True, required=False)
+    # valConversionPlace = fields.BooleanField(initial=True, required=False)
+    # valLastModified = fields.BooleanField(initial=True, required=False)
+    # valAddedToAssortment = fields.BooleanField(initial=True, required=False)
+    # valIsActive = fields.BooleanField(initial=True, required=False)
+    # valNote = fields.BooleanField(initial=True, required=False)
