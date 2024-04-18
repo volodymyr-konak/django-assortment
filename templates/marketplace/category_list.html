@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Categories Data</title>
+    <title>Categories</title>
 </head>
 <body>
+<form name="search_form">
+    {{ search_form }}
+    <input type="submit" value="SEARCH">
+</form>
 {% block content %}
 <table border="1">
     <thead>
@@ -32,7 +36,6 @@
                 edit
             </a>
         </td>
-        <td> {{ category.id }}</td>
         <td> {{ category.categoryId }}</td>
         <td> {{ category.categoryName }}</td>
         <td> {{ category.orgId }}</td>

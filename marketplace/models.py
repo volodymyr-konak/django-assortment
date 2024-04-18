@@ -7,18 +7,18 @@ import uuid
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    categoryId = models.CharField(max_length=200)
-    categoryName = models.CharField(max_length=200)
-    orgId = models.CharField(max_length=200)
-    orgName = models.CharField("Org Name", max_length=200)
-    assortCategoryName = models.CharField(max_length=200)
-    assortCategoryRSXKey = models.CharField(max_length=200)
-    catConversionPlace = models.CharField(max_length=200)
-    catAddedToAssortment = models.BooleanField("Added to system?")
-    catIsActive = models.BooleanField("Is active?")
+    categoryId = models.CharField(max_length=200, blank=True)
+    categoryName = models.CharField(max_length=200, blank=True)
+    orgId = models.CharField(max_length=200, blank=True)
+    orgName = models.CharField("Org Name", max_length=200, blank=True)
+    assortCategoryName = models.CharField(max_length=200, blank=True)
+    assortCategoryRSXKey = models.CharField(max_length=200, blank=True)
+    catConversionPlace = models.CharField(max_length=200, blank=True)
+    catAddedToAssortment = models.BooleanField("Added to system?", blank=True)
+    catIsActive = models.BooleanField("Is active?", blank=True, default=True)
     # catLastModified = models.DateTimeField("Last Modified", default=datetime.now, blank=True)
-    catLastModified = models.CharField(max_length=200)
-    catNote = models.CharField("Note", max_length=200)
+    catLastModified = models.CharField(max_length=200, blank=True)
+    catNote = models.CharField("Note", max_length=200, blank=True)
 
 
 class Attribute(models.Model):
@@ -38,7 +38,7 @@ class Attribute(models.Model):
     minLength = models.CharField(max_length=200, null=True)
     maxLength = models.CharField(max_length=200, null=True)
     attrAddedToAssortment = models.BooleanField()
-    attrIsActive = models.BooleanField()
+    attrIsActive = models.BooleanField(default=True)
     # attrLastModified = models.DateTimeField("Last Modified", default=datetime.now, blank=True)
     attrLastModified = models.CharField(max_length=200)
     attrNote = models.CharField(max_length=200)
@@ -57,6 +57,6 @@ class AttributeValue(models.Model):
     # valLastModified = models.DateTimeField("Last Modified", default=datetime.now, blank=True)
     valLastModified = models.CharField(max_length=200)
     valAddedToAssortment = models.BooleanField()
-    valIsActive = models.BooleanField()
+    valIsActive = models.BooleanField(default=True)
     valNote = models.CharField(max_length=200)
 
