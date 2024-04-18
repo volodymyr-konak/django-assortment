@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories Data</title>
+</head>
+<body>
+{% block content %}
+<table border="1">
+    <thead>
+    <tr>
+        <th></th>
+        <th>attributeName</th>
+        <th>attributeId</th>
+        <th>attributeDescription</th>
+        <th>assortAttributeName</th>
+        <th>assortAttributeRSXKey</th>
+        <th>attrConversionPlace</th>
+        <th>dataType</th>
+        <th>minLength</th>
+        <th>maxLength</th>
+        <th>attrAddedToAssortment</th>
+        <th>attrIsActive</th>
+        <th>attrNote</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for attribute in attribute_list %}
+    <tr>
+        <td>
+            <a href="/marketplace/edit_attribute/{{ attribute.id }}">
+                edit
+            </a>
+        </td>
+        <td> {{ attribute.attributeName }}</td>
+        <td> {{ attribute.attributeId }}</td>
+        <td> {{ attribute.attributeDescription }}</td>
+        <td> {{ attribute.assortAttributeName }}</td>
+        <td> {{ attribute.assortAttributeRSXKey }}</td>
+        <td> {{ attribute.attrConversionPlace }}</td>
+        <td> {{ attribute.dataType }}</td>
+        <td> {{ attribute.minLength }}</td>
+        <td> {{ attribute.maxLength }}</td>
+        <td> {{ attribute.attrAddedToAssortment }}</td>
+        <td> {{ attribute.attrIsActive }}</td>
+        <td> {{ attribute.attrNote }}</td>
+        <td>
+            <a href="/marketplace/{{ attribute.id}}/attribute_values">
+                VALUES
+            </a>
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

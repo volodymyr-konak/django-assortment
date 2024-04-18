@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories Data</title>
+</head>
+<body>
+{% block content %}
+<table border="1">
+    <thead>
+    <tr>
+        <th></th>
+        <th>valueName</th>
+        <th>valueId</th>
+        <th>assortValueName</th>
+        <th>assortValueRSXKey</th>
+        <th>valConversionPlace</th>
+        <th>valLastModified</th>
+        <th>valAddedToAssortment</th>
+        <th>valIsActive</th>
+        <th>valNote</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for value in attributevalue_list %}
+    <tr>
+        <td>
+            <a href="/marketplace/edit_category/{{ category.id }}">
+                edit
+            </a>
+        </td>
+        <td> {{ value.valueName }}</td>
+        <td> {{ value.valueId }}</td>
+        <td> {{ value.assortValueName }}</td>
+        <td> {{ value.assortValueRSXKey }}</td>
+        <td> {{ value.valConversionPlace }}</td>
+        <td> {{ value.valLastModified }}</td>
+        <td> {{ value.valAddedToAssortment }}</td>
+        <td> {{ value.valIsActive }}</td>
+        <td> {{ value.valNote }}</td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

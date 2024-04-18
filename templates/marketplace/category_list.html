@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories Data</title>
+</head>
+<body>
+{% block content %}
+<table border="1">
+    <thead>
+    <tr>
+        <th></th>
+        <th>categoryId</th>
+        <th>categoryName</th>
+        <th>orgId</th>
+        <th>orgName</th>
+        <th>assortCategoryName</th>
+        <th>assortCategoryRSXKey</th>
+        <th>catConversionPlace</th>
+        <th>catAddedToAssortment</th>
+        <th>catIsActive</th>
+        <th>catLastModified</th>
+        <th>catNote</th>
+        <th>attributes</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for category in category_list %}
+    <tr>
+        <td>
+            <a href="/marketplace/edit_category/{{ category.id }}">
+                edit
+            </a>
+        </td>
+        <td> {{ category.id }}</td>
+        <td> {{ category.categoryId }}</td>
+        <td> {{ category.categoryName }}</td>
+        <td> {{ category.orgId }}</td>
+        <td> {{ category.orgName }}</td>
+        <td> {{ category.assortCategoryName }}</td>
+        <td> {{ category.assortCategoryRSXKey }}</td>
+        <td> {{ category.catConversionPlace }}</td>
+        <td> {{ category.catAddedToAssortment }}</td>
+        <td> {{ category.catIsActive }}</td>
+        <td> {{ category.catLastModified }}</td>
+        <td> {{ category.catNote }}</td>
+        <td>
+            <a href="/marketplace/{{ category.id}}/attributes/required">
+                REQUIRED ATTRIBUTES
+            </a>
+        </td>
+        <td>
+            <a href="/marketplace/{{ category.id}}/attributes/optional">
+                OPTIONAL ATTRIBUTES
+            </a>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>
