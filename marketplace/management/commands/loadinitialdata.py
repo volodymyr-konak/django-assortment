@@ -5,9 +5,9 @@ from marketplace.models import Category, Attribute, AttributeValue
 
 import ujson
 import time
+import pathlib
 
 
-# @transaction.atomic
 def create_and_save_attributes_for_category(category_data, category_instance):
     # with transaction.atomic():
     for [is_required, attributes] in [
@@ -30,12 +30,16 @@ def create_and_save_attributes_for_category(category_data, category_instance):
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument("data_file", type=str)
+
     def handle(self, *args, **options):
         start_time = time.time()
+        file_path = options["data_file"]
+        if not pathlib.Path(file_path).exists():
+            raise FileNotFoundError(f"File does not exist: `{file_path}`")
 
-        # json_file_path = "/Users/volodymyr/dev/assortment/canonical.json"
-        json_file_path = "/Users/volodymyr/Downloads/Telegram Desktop/item_types_with_attributes_and_values.json"
-        with open(json_file_path) as file:
+        with open(file_path) as file:
             data_tree = ujson.load(file)
             for category in data_tree:
                 reqAttrs = category.get("requiredAttributes", [])
@@ -44,8 +48,6 @@ class Command(BaseCommand):
                 del category["optionalAttributes"]
                 this_cat = Category(**category)
                 this_cat.save()
-
-                # create_and_save_attributes_for_category(category, this_cat)
 
                 with transaction.atomic():
                     for [is_required, attributes] in [
