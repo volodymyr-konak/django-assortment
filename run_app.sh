@@ -1,7 +1,7 @@
-brew install pyenv
-pyenv install 3.10.1
+brew install pyenv -q
+pyenv install -s 3.10.1
 pyenv local 3.10.1
-pip install -r requirements.txt
+pip install -r -q requirements.txt
 
 python manage.py makemigrations marketplace
 python manage.py migrate

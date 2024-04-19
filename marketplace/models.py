@@ -7,7 +7,8 @@ from marketplace.utils import execute_query
 
 
 class Category(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    # id = models.AutoField(primary_key=True, editable=False)
 
     categoryId = models.CharField(max_length=200, blank=True)
     categoryName = models.CharField(max_length=200, blank=True)
@@ -26,7 +27,8 @@ class Category(models.Model):
 class Attribute(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    # id = models.AutoField(primary_key=True, editable=False)
 
     required = models.BooleanField(editable=False)
 
@@ -49,7 +51,8 @@ class Attribute(models.Model):
 class AttributeValue(models.Model):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    # id = models.AutoField(primary_key=True, editable=False)
 
     valueName = models.CharField(max_length=200, blank=True)
     valueId = models.CharField(max_length=200, blank=True)
